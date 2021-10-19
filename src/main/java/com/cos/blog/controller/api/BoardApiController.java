@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cos.blog.dto.ResponseDto;
 import com.cos.blog.model.Board;
-import com.cos.blog.model.User;
 import com.cos.blog.service.BoardService;
-import com.cos.blog.service.UserService;
 
 @RestController
 public class BoardApiController {
@@ -21,15 +19,10 @@ public class BoardApiController {
 	@Autowired
 	private BoardService boardService;
 	
-	@Autowired
-	private UserService userService;
-	
 	@PostMapping("/api/board")
-	public ResponseDto<Integer> save(@RequestBody Board board, User user) {
+	public ResponseDto<Integer> save(@RequestBody Board board) {
 		System.out.println("BoardApiController : btn-board-save 호출됨");
-		User principal = boardService. 로그인(user); //principal (접근주체)
-		System.out.println("principal : " + principal);
-		boardService.글쓰기(board, principal);
+		boardService.글쓰기(board);
 //		boardService.글쓰기(board, principal);
 		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1); 
 	}
@@ -42,10 +35,10 @@ public class BoardApiController {
 	
 	@PutMapping("/api/board/{id}")
 	public ResponseDto<Integer> update(@PathVariable int id, @RequestBody Board board){
+		System.out.println("BoardApiController : Update : id : " + id);
+		System.out.println("BoardApiController : Update : board : " + board.getTitle());
+		System.out.println("BoardApiController : Update : board : " + board.getContent());
 		boardService.글수정하기(id, board);
 		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
-		
-		
-		
 	}
 }

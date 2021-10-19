@@ -1,5 +1,7 @@
 package com.cos.blog.service;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,11 +29,10 @@ public class BoardService {
 	}
 
 	@Transactional
-	public void 글쓰기(Board board, User principal) { // title, content
+	public void 글쓰기(Board board) { // title, content
 		System.out.println("BoardService : 글쓰기 호출됨");
 		board.setCount(0);
-		board.setUser(principal);
-		System.out.println("board.getUser() : " + board.getUser());
+//		board.setUser();
 		boardRepository.save(board);
 	}
 
@@ -59,6 +60,6 @@ public class BoardService {
 		}); // 영속화 완료
 		board.setTitle(requestBoard.getTitle());
 		board.setContent(requestBoard.getContent());
-		//해당 함수로 종료시(Service가 종료될 때) 트랜잭션이  종료
+		//해당 함수로 종료시(Service가 종료될 때) 트랜잭션이  종료된다. 이때 더티체킹 - 자동 업데이트가 됨.db flush
 	}
 }

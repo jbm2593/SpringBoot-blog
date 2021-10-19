@@ -4,7 +4,9 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,7 +34,7 @@ public class UserApiController {
 	}
 	
 	
-	@PostMapping("api/user/login")
+	@PostMapping("/api/user/login")
 	public ResponseDto<Integer> login(@RequestBody User user){
 		System.out.println("UserApiController : loging 호출됨");
 		User principal = userService. 로그인(user); //principal (접근주체)
@@ -43,6 +45,13 @@ public class UserApiController {
 			System.out.println("principal_id2 : " + principal.getId());
 //			System.out.println("session_id  : " + session.getA);
 		}
+		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
+	}
+	
+	@PutMapping("/api/user/update/{id}")
+	public ResponseDto<Integer> update(@PathVariable int id, @RequestBody User user){
+		System.out.println("UserApiController : /api/user/update/{id}진입");
+		userService.회원수정(id, user);
 		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
 	}
 }
