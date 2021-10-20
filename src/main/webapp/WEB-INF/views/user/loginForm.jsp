@@ -20,6 +20,7 @@
 		</div>		
 	</form>
 	<button id="btn-login" class="btn btn-primary">로그인</button>
+	<a href = "https://kauth.kakao.com/oauth/authorize?client_id=e05f1c92307d0b24b9d4d02c0cfbf6b5&redirect_uri=http://localhost:8000/auth/kakao/callback&response_type=code"><img height = "38px" src = "/image/kakao_login_button.png"/></a>
 </div>
 
 <script src = "/js/user.js"></script>
