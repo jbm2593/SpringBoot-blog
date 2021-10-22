@@ -1,8 +1,5 @@
 package com.cos.blog.service;
 
-import java.security.Principal;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -13,15 +10,16 @@ import com.cos.blog.model.User;
 import com.cos.blog.repository.BoardRepository;
 import com.cos.blog.repository.UserRepository;
 
+import lombok.RequiredArgsConstructor;
+
 //스프링이 컴포넌트 스캔을 통해서 Bean에 등록을 해줌. IOC를 해준다.
 @Service
+@RequiredArgsConstructor
+
 public class BoardService {
 
-	@Autowired
-	private BoardRepository boardRepository;
-
-	@Autowired
-	private UserRepository userRepository;
+	private final BoardRepository boardRepository;
+	private final UserRepository userRepository;
 
 	@Transactional(readOnly = true) // Select 할 때 트랜젝션 시작, 서비스 종료시에 트랜젝션 종료 ( 정합성)
 	public User 로그인(User user) {
@@ -29,10 +27,10 @@ public class BoardService {
 	}
 
 	@Transactional
-	public void 글쓰기(Board board) { // title, content
+	public void 글쓰기(Board board,  User user) { // title, content
 		System.out.println("BoardService : 글쓰기 호출됨");
 		board.setCount(0);
-//		board.setUser();
+		board.setUser(user);
 		boardRepository.save(board);
 	}
 

@@ -49,4 +49,6 @@ public class User {
 	@CreationTimestamp // 값을 비워두고 insert해도 시간이 자동 입력
 	private Timestamp createdTime;
 	
+	private String oauth; // kakao, google
+	
 }
