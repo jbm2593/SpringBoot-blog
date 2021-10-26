@@ -56,7 +56,9 @@ public class UserService {
 		//select를 해서 User 오브젝트를 DB로 부터 가져오는 이유는 영속화를 하기 위해서!
 		//영속화된 오브젝트를 변경하면 자동으로 DB에 update문을 날려준다.
 		//---------위에 주석 적용안함.
-		User persistance = userRepository.findById(id).orElseThrow(() -> {
+		User persistance = userRepository.findById(user.getId()).orElseThrow(() -> {
+			System.out.println("user.getId() : " + user.getId());
+			System.out.println("user : " + user);
 			return new IllegalArgumentException("회원 찾기 실패");
 		});
 		

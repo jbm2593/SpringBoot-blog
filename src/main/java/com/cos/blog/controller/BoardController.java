@@ -17,10 +17,12 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService;
 	
-	@GetMapping("/")
+	//@GetMapping("/")
+	@GetMapping({"", "/"})
 	public String index(Model model, @PageableDefault(size = 3, sort = "id", direction = Sort.Direction.DESC)Pageable pageable) {
 		model.addAttribute("boards", boardService.글목록(pageable));
 		//WEB-INF/vies/index.jsp
+		System.out.println("redirect로 인해 다시 index로 이동");
 		return "index"; //viewResolver 작동!!
 	}
 	

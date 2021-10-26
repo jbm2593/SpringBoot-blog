@@ -31,7 +31,7 @@ public class UserApiController {
 	@Autowired
 	private HttpSession session;
 	
-	@PostMapping("/api/user")
+	@PostMapping("/auth/joinProc")
 	public ResponseDto<Integer> save(@RequestBody User user) { //username, password, email
 		System.out.println("UserApiController : save 호출됨");
 		//실제로 DB에 insert를 하고 아래에서 return이 되면 된다.
@@ -41,22 +41,23 @@ public class UserApiController {
 	}
 	
 	
-	@PostMapping("/api/user/login")
-	public ResponseDto<Integer> login(@RequestBody User user){
-		System.out.println("UserApiController : loging 호출됨");
-		User principal = userService. 로그인(user); //principal (접근주체)
-		System.out.println("principal : " + principal);
-		System.out.println("principal_id : " + principal.getId());
-		if(principal != null) {
-			session.setAttribute("principal", principal);
-			System.out.println("principal_id2 : " + principal.getId());
-//			System.out.println("session_id  : " + session.getA);
-		}
-		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
-	}
+//	@PostMapping("/api/user/login")
+//	public ResponseDto<Integer> login(@RequestBody User user){
+//		System.out.println("UserApiController : loging 호출됨");
+//		User principal = userService. 로그인(user); //principal (접근주체)
+//		System.out.println("principal : " + principal);
+//		System.out.println("principal_id : " + principal.getId());
+//		if(principal != null) {
+//			session.setAttribute("principal", principal);
+//			System.out.println("principal_id2 : " + principal.getId());
+////			System.out.println("session_id  : " + session.getA);
+//		}
+//		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
+//	}
 	
 	@PutMapping("/api/user/update/{id}")
-	public ResponseDto<Integer> update(@PathVariable int id, @RequestBody User user){		
+	public ResponseDto<Integer> update(@PathVariable int id, @RequestBody User user){
+		System.out.println("api/user/update/{id} 진입~");
 		userService.회원수정(id, user);
 		//여기서는 트랜잭션이 종료되기 때문에 DB에 값은 변경이 됐음.
 		//하지만 세션값은 변경되지 않은 상태이기 때문에 내가 직접 세션값을 변경해줄 것임.

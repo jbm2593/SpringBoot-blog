@@ -5,7 +5,7 @@
 
 	<button class="btn btn-secondary" onclick="history.back()">돌아가기</button>
 	<script>
-		alert(${board.user.id});
+		alert("board id : " + ${board.user.id});
 	</script>
 	<c:if test="${board.user.id == principal.user.id}">
 		<a href="/board/${board.id}/updateForm" class="btn btn-warning">수정</a>

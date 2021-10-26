@@ -3,6 +3,7 @@ package com.cos.blog.controller;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -26,8 +27,6 @@ import com.cos.blog.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import lombok.Value;
 
 //인증이 안된 사용자들이 출입할 수 있는 경로를 /auth/** 허용
 //그냥 주소가 / 이면 index.jsp 허용
@@ -78,11 +77,12 @@ public class UserController {
 	
 	@GetMapping("/userForm")
 	public String userForm() {
+		System.out.println("userForm 진입~~");
 		return "user/userForm";
 	}
 	
 	@GetMapping("/auth/kakao/callback")
-	public @ResponseBody String kakaoCallback(String code) { // Dataf를 리턴해주는 함수
+	public String kakaoCallback(String code) { // Dataf를 리턴해주는 함수
 		// ***인가코드 받기 ***
 		//developer.kakao에 등록한 redirect uri(/auth/kakao/callback)에
 		// reponse 데이터로 code(인가코드)가 날라온다.
@@ -172,11 +172,11 @@ public class UserController {
 		System.out.println("블로그 서버 이메일 : " + kakaoProfile.getKakao_account().getEmail());
 		//UUID garbagePassword = UUID.randomUUID();
 		// UUID란 -> 중복되지 않는 어떤 특정 값을 만들어내는 알고리즘
-		System.out.println("블로그서버 패스워드 : " + coskey);
+		System.out.println("블로그서버 패스워드 : " + cosKey);
 		
 		User kakaoUser = User.builder()
 				.username(kakaoProfile.getKakao_account().getEmail() + "_" + kakaoProfile.getId())
-				.password(coskey)
+				.password(cosKey)
 				.email( kakaoProfile.getKakao_account().getEmail())
 				.oauth("kakao")
 				.build();
@@ -194,8 +194,9 @@ public class UserController {
 		//로그인 처리
 		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(kakaoUser.getUsername(), cosKey));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
-				
+		
 		return "redirect:/";
+		
 	}
 }
 
